@@ -1,6 +1,6 @@
 #pragma once
 #include <windows.h>  // CreateWindow에 필요한 헤더
-#include<functional>
+
 
 class MakeButton {
 private:

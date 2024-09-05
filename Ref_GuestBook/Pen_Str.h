@@ -6,10 +6,6 @@
 
 using namespace std;
 
-
-class Pen {
-    RECT  area;
-};
 /**
  * @brief       펜 정보 관련한 구조체
  * (좌표, 펜 굵기, 색깔, 시간, 상태(LBUTTON))
@@ -21,10 +17,17 @@ typedef struct Pen_Info
     COLORREF    penColor;          // 펜 색깔
     DWORD       penTime;           // 시간
     UINT        penState;          // 상태 (LBUTTON)
-        
+
 } PEN_INFO;
 
-
+typedef struct Scale_Point_Info
+{
+    std::vector<PEN_INFO> pinfo;
+    int x;
+    int y;
+    int width;
+    int height;
+}SPINFO;
 
 
 /**
@@ -37,13 +40,3 @@ extern PEN_INFO g_Pen_Info;     // 펜 구조체 전역변수 선언 (extern)
 extern COLORREF pen_Color;      // 펜 색상 전역변수 선언 (extern)
 extern int pen_Width;           // 펜 굵기 전역변수 선언 (ectern)
 
-#define C_RED		 7000
-#define C_ORANGE	 8000
-#define C_YELLOW	 9000
-#define C_GREEN		10000
-#define C_BLUE		11000
-#define C_NAVY		12000
-#define C_PURPLE	13000
-#define C_BLACK		14000
-
-void Change_Color(int color);
