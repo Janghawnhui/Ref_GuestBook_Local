@@ -11,6 +11,9 @@
 #include "file_operations.h"
 #include "c_color.h"
 #include "paint_area.h"
+#include "Window_Size.h"
+#include "stamp.h"
+
 
 
 
@@ -27,3 +30,13 @@
 /// 
 #define W_UP 500
 #define W_DOWN 600
+
+
+///
+/// ½ºÅÆÇÁ func
+/// 
+#define CHANGE_PEN 700
+#define HEART_STAMP 800
+#define UH_STAMP 900
+#define YUHAN_STAMP 1000
+#define YONGBIN_STAMP 1100
