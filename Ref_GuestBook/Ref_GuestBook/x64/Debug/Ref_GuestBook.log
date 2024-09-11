@@ -1,15 +1,5 @@
-﻿  button.cpp
+﻿  ColorPalette.cpp
   c_color.cpp
-C:\2nd\방명록\Ref_GuestBook\Ref_GuestBook\button.cpp(48,5): warning C4312: '형식 캐스트': 'int'에서 더 큰 'HMENU'(으)로의 변환입니다.
-C:\2nd\방명록\Ref_GuestBook\Ref_GuestBook\button.cpp(70,5): warning C4312: '형식 캐스트': 'int'에서 더 큰 'HMENU'(으)로의 변환입니다.
-  drawline.cpp
-  erase.cpp
-  file_io.cpp
-  file_operations.cpp
-  paint_area.cpp
   Ref_GuestBook.cpp
-  replay.cpp
-  stamp.cpp
-  w_control.cpp
   코드를 생성하고 있습니다...
-  Ref_GuestBook.vcxproj -> C:\2nd\방명록\Ref_GuestBook\Ref_GuestBook\x64\Debug\Ref_GuestBook.exe
+  Ref_GuestBook.vcxproj -> C:\2nd\방명록\Ref_GuestBook_local\Ref_GuestBook\x64\Debug\Ref_GuestBook.exe
