@@ -13,7 +13,7 @@ WCHAR szWindowClass[MAX_LOADSTRING];            /// 기본 창 클래스 이름�
 /// 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+//LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -60,14 +60,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 ///  함수: MyRegisterClass()
 ///  용도: 창 클래스를 등록합니다.
 
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM Window::MyRegisterClass(HINSTANCE hInstance)
 {
     WNDCLASSEXW wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
+    wcex.lpfnWndProc    = StaticWndProc;
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
@@ -145,6 +145,7 @@ MakeButton bt_SAVE(230, 10, 100, 45, SAVE, L"SAVE");
 MakeButton bt_Load(230, 65, 100, 45, LOAD, L"LOAD");
 MakeButton bt_Widthup(375, 10, 30, 30, W_DOWN, L"-");
 MakeButton bt_Widthdown(450, 10, 30, 30, W_UP, L"+");
+MakeButton bt_ColorChange(660, 10, 30, 30, COLOR_CHANGE, L" 색");
 
 /*
 ///펜 색상 변경 버튼 
@@ -165,8 +166,12 @@ MakeButton bt_Uh_Stamp(900, 10, 50, 50, UH_STAMP, L"UH");
 MakeButton bt_Yuhan_Stamp(960, 10, 50, 50, YUHAN_STAMP, L"YUHAN");
 MakeButton bt_Yongbin_Stamp(1020, 10, 50, 50, YONGBIN_STAMP, L"YONGBIN");
 
+LRESULT Window::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    return sinTonIns->WndProc(hWnd, message, wParam, lParam);
+}
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 {    /**
     * static을 사용해서 불필요한 메모리 낭비 줄이기
@@ -207,6 +212,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         bt_ColorNavy.mkButton(IDI_NAVY_ICON);
         bt_ColorPurple.mkButton(IDI_PURPLE_ICON);
         bt_ColorBlack.mkButton(IDI_BLACK_ICON);
+        bt_ColorChange.mkButton();
         
 
         bt_Change_Pen.mkButton();
@@ -224,6 +230,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             /// 지우기 기능 
+            case COLOR_CHANGE:
+                if (penNum == 0)
+                    colorPalette->colorSelect(hWnd, penNum);
+                else penNum = 0;
+                break;
             case ERASE:
                 eraser.erase(hWnd);                         /// 지우기                  
                 break;
@@ -384,5 +395,14 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+Window* Window::GetInstance()
+{
+    call_once(flag, []          ///익명함수
+        {
+            sinTonIns.reset(new Window);
+        });
+    return sinTonIns.get();
 }
 
