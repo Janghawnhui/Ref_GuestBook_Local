@@ -1,17 +1,1 @@
-﻿  button.cpp
-C:\2nd\방명록\Ref_GuestBook\Ref_GuestBook\button.cpp(50,5): warning C4312: '형식 캐스트': 'int'에서 더 큰 'HMENU'(으)로의 변환입니다.
-C:\2nd\방명록\Ref_GuestBook\Ref_GuestBook\button.cpp(75,5): warning C4312: '형식 캐스트': 'int'에서 더 큰 'HMENU'(으)로의 변환입니다.
-  c_color.cpp
-  drawline.cpp
-  erase.cpp
-  file_io.cpp
-  file_operations.cpp
-  paint_area.cpp
-  Ref_GuestBook.cpp
-C:\2nd\방명록\Ref_GuestBook\Ref_GuestBook\Ref_GuestBook.cpp(257,80): warning C4244: '인수': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  replay.cpp
-  stamp.cpp
-  Window_Size.cpp
-  w_control.cpp
-  코드를 생성하고 있습니다...
-  Ref_GuestBook.vcxproj -> C:\2nd\방명록\Ref_GuestBook\Ref_GuestBook\x64\Debug\Ref_GuestBook.exe
+﻿  Ref_GuestBook.vcxproj -> C:\2nd\방명록\Ref_GuestBook_Local\Ref_GuestBook_Local\Ref_GuestBook\x64\Debug\Ref_GuestBook.exe

@@ -2,7 +2,7 @@
 
 #include "resource.h"
 #include "Pen_Str.h"
-#include "drawline.h"
+#include "DrawFunc.h"
 #include "replay.h"
 #include "button.h"
 #include "erase.h"
@@ -13,6 +13,7 @@
 #include "paint_area.h"
 #include "Window_Size.h"
 #include "stamp.h"
+#include "ColorPalette.h"
 
 // 그리기 영역
 #define PAINT_R_LEFT 10
@@ -54,6 +55,7 @@
 #define C_NAVY		 805
 #define C_PURPLE	 806
 #define C_BLACK		 807
+#define PALETTE		 808
 
 /**
 * @Window_Size_Width 윈도우 넓이
