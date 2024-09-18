@@ -20,6 +20,7 @@ public:
 
     void mkButton(HWND g_Hwnd);
     void mkButton(HWND g_Hwnd, int path);
+    void mkButton(HWND g_Hwnd, COLORREF color);
 
 private:
     void insertIconImg(LPCWSTR text, int path, HINSTANCE hInst);

@@ -48,9 +48,6 @@
     <ClInclude Include="file_operations.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="c_color.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="paint_area.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -84,9 +81,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="file_operations.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="c_color.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="paint_area.cpp">

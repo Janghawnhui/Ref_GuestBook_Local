@@ -1,6 +1,15 @@
-#include "ColorPalette.h" /// colorpalette.h 헤더 파일을 포함한다
+/**
+@file ColorPalette.cpp
+@brief 펜 색상변경 팔레트 코드
+*/
+#include "ColorPalette.h" 
+
 
 /// 색상 선택 대화상자 열고 선택된 색상을 설정하는 함수
+/*
+@fn ColorPalette:colorSelect(HWND hWnd, int penNum)
+@brief 팔레트 상자 열고 색상 선택하는 함수
+*/
 void ColorPalette::colorSelect(HWND hWnd, int penNum)
 {
 	ZeroMemory(&cc, sizeof(cc)); /// cc(ColorChooser) 구조체를 초기화하여 모든 값을 0으로 설정
@@ -25,16 +34,6 @@ void ColorPalette::colorSelect(HWND hWnd, int penNum)
 	}
 }
 
-/// 화면에 선택된 색상을 칠하는 함수
-void ColorPalette::paint(PAINTSTRUCT ps, HDC hdc)
-{
-	/// 브러시가 생성되었을 때, 브러시 색상으로 화면 영역을 채움
-	if (hBrush)
-	{
-		/// ps.rcPaint는 WM_PAINT 메시지에 의해 그려질 영역을 나타냄, 이 영역을 브러시로 채움
-		FillRect(hdc, &ps.rcPaint, hBrush);
-	}
-}
 
 /// 색상 팔레트 관련 리소스를 정리하는 함수
 void ColorPalette::destroy()

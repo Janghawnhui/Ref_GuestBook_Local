@@ -108,15 +108,15 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 ///  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 
 /// 전역변수 정의
-vector<PEN_INFO> penMemory;             /// 펜 구조체 정보 저장 벡터 변수 전역변수 정의
+std::vector<PEN_INFO> penMemory;             /// 펜 구조체 정보 저장 벡터 변수 전역변수 정의
 PEN_INFO g_Pen_Info;                    /// 펜 정보 구조체 전역변수 정의
-COLORREF pen_Color = RGB(0, 0, 0);      /// 펜 기본 색상 BLACK
+COLORREF pen_Color = RGB(0, 0, 0);      /// 펜 기본 색상 BLACK, RGB(0, 0, 0)
 ColorPalette g_colorPalette;
 
 ///  윈도우 핸들 전역변수
 HWND g_Hwnd;                            /// HWND 전역변수 정의
 PenDraw drawInstance;                   /// 그리기 관련 클래스 인스턴스 선언
-PenColorManager penManager;             /// 펜 색상 관련 클래스 인스턴스 선언
+            /// 펜 색상 관련 클래스 인스턴스 선언
 PaintAreaSquare paintSquare;            /// 그리기 영역 사각형 인스턴스 선언
 PenWidthControl penWidthControl;        /// 펜 굵기 조절 관련 인스턴스 선언
 File_Manager fileManager;               /// File_Manager 클래스의 인스턴스 생성
@@ -125,7 +125,7 @@ Eraser eraser;                          /// Eraser 클래스의 인스턴스 생
 int pen_Width = 10;                     /// 펜 기본 굵기 10으로 정의
 int stamp_Size = 100;                   /// 스탬프 크기 가로, 세로 80으로 정의
 int stampIcon = 132;                    /// 스탬프 아이콘 초기값
-bool stampActive = false;                       /// 스탬프 버튼 활성화 확인
+bool stampActive = false;               /// 스탬프 버튼 활성화 확인
 static Stamp* stampInfo = nullptr;      /// Stamp 객체를 저장할 포인터
 
 /// 기능 기본 버튼
@@ -137,14 +137,7 @@ MakeButton bt_Widthup(375, 10, 30, 30, W_DOWN, L"-");
 MakeButton bt_Widthdown(450, 10, 30, 30, W_UP, L"+");
 
 /// 펜 색상 변경 버튼
-MakeButton bt_ColorRed(500, 10, 30, 30, C_RED, L"빨");
-MakeButton bt_ColorOrange(540, 10, 30, 30, C_ORANGE, L"주");
-MakeButton bt_ColorYellow(580, 10, 30, 30, C_YELLOW, L"노");
-MakeButton bt_ColorGreen(620, 10, 30, 30, C_GREEN, L"초");
-MakeButton bt_ColorBlue(500, 50, 30, 30, C_BLUE, L"파");
-MakeButton bt_ColorNavy(540, 50, 30, 30, C_NAVY, L"남");
-MakeButton bt_ColorPurple(580, 50, 30, 30, C_PURPLE, L"보");
-MakeButton bt_ColorBlack(620, 50, 30, 30, C_BLACK, L"검");
+
 MakeButton bt_ColorPalette(680, 10, 50, 50, PALETTE, L"PALETTE");
 
 /// 펜 색상 변경 버튼
@@ -170,6 +163,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_CREATE:
         g_Hwnd = hWnd;
 
+        /// stamp 관련 객체 초기화
+        stampInfo = new Stamp(NULL, NULL);
+
+
         /// 윈도우 창 생성시 버튼 생성 메서드 실행
         /// 인자 관련 설명은 button.cpp 파일 주석 참고
         /// 리플레이, 지우개 버튼 생성
@@ -185,14 +182,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         bt_Widthdown.mkButton(g_Hwnd);
 
         /// 색상 변경 버튼 생성
-        bt_ColorRed.mkButton(g_Hwnd, IDI_RED_ICON);
-        bt_ColorOrange.mkButton(g_Hwnd, IDI_ORANGE_ICON);
-        bt_ColorYellow.mkButton(g_Hwnd, IDI_YELLOW_ICON);
-        bt_ColorGreen.mkButton(g_Hwnd, IDI_GREEN_ICON);
-        bt_ColorBlue.mkButton(g_Hwnd, IDI_BLUE_ICON);
-        bt_ColorNavy.mkButton(g_Hwnd, IDI_NAVY_ICON);
-        bt_ColorPurple.mkButton(g_Hwnd, IDI_PURPLE_ICON);
-        bt_ColorBlack.mkButton(g_Hwnd, IDI_BLACK_ICON);
 
         bt_ColorPalette.mkButton(g_Hwnd);
 
@@ -242,7 +231,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             break;
 
         case PALETTE:
-            g_colorPalette.colorSelect(hWnd, 0);
+            g_colorPalette.colorSelect(g_Hwnd, 0);
             pen_Color = g_colorPalette.getColor(0);
             break;
 
@@ -267,17 +256,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             break;
 
             /// 펜 색상 변경 기능
-        case C_RED:
-        case C_ORANGE:
-        case C_YELLOW:
-        case C_GREEN:
-        case C_BLUE:
-        case C_NAVY:
-        case C_PURPLE:
-        case C_BLACK:
-            penManager.Change_Color(wmId, &pen_Color);
-            break;
-
+ 
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
             break;
@@ -295,14 +274,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
 
+        /// 펜 굵기 표시 메서드
         penWidthControl.penWidthDisplay(hdc, &stampActive, &stamp_Size, &pen_Width);
 
         /// 그리기 영역 사각형 그리기
         paintSquare.makeSquare(hdc);
+
         /// 그리기 한 벡터 데이터 그리기 유지
         drawInstance.drawStay(hdc, g_Hwnd, &penMemory);
 
-        g_colorPalette.paint(ps, hdc);
         EndPaint(hWnd, &ps);
         break;
     }

@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 #include <windows.h>
 #include <commdlg.h> /// 색상 선택을 사용하기위한 API 
@@ -14,7 +13,6 @@ private:
 
 public:
 	void colorSelect(HWND, int);
-	void paint(PAINTSTRUCT, HDC);
 	void destroy();
 
 	COLORREF getColor(int);

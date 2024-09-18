@@ -116,3 +116,4 @@ void MakeButton::insertIconImg(LPCWSTR text, int path, HINSTANCE hInst)
         (LPARAM)hIcon                                   /// 설정할 아이콘
     );
 }
+
