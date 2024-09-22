@@ -90,23 +90,31 @@ void MakeButton::mkButton(HWND g_Hwnd, int path) {
     insertIconImg(text, path, (HINSTANCE)GetWindowLongPtr(this->hButton, GWLP_HINSTANCE));
 }
 
+
+/**
+@fn MakeButton::mkButton(HWND g_Hwnd, COLORREF color)
+@brief 버튼 클래스의 색상 기반 버튼 생성 메서드
+@details 색상을 기반으로 버튼을 생성
+@param g_Hwnd 윈도우 핸들
+@param color 버튼에 적용할 RGB 색상 (COLORREF 형식)
+*/
 void MakeButton::mkButton(HWND g_Hwnd, COLORREF color) {
-    this->hButton = g_Hwnd;
-    this->buttonColor = color;  // 색상을 저장할 멤버 변수 추가
+    this->hButton = g_Hwnd;                    
+    this->buttonColor = color;                
 
     // 버튼 생성
     CreateWindow(
-        L"BUTTON",
-        text,
-        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_OWNERDRAW, // 버튼 스타일에 BS_OWNERDRAW 추가
-        x,
-        y,
-        width,
-        height,
-        this->hButton,
-        (HMENU)func,
-        (HINSTANCE)GetWindowLongPtr(this->hButton, GWLP_HINSTANCE),
-        NULL
+        L"BUTTON",                                                          // 버튼 클래스 이름
+        text,                                                               // 버튼 텍스트
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_OWNERDRAW,                  // 버튼 스타일 
+        x,                                                                  // 버튼의 x 좌표
+        y,                                                                  // 버튼의 y 좌표
+        width,                                                              // 버튼의 너비
+        height,                                                             // 버튼의 높이
+        this->hButton,                                                      // 부모 윈도우 핸들
+        (HMENU)func,                                                        // 버튼 ID (핸들러)
+        (HINSTANCE)GetWindowLongPtr(this->hButton, GWLP_HINSTANCE),         // 인스턴스 핸들
+        NULL                                                                // 추가 매개변수
     );
 }
 /**
