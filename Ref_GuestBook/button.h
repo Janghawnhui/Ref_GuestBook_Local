@@ -14,6 +14,7 @@ private:
     int func;             /// 버튼의 ID
     LPCWSTR text;         /// 버튼 텍스트
     HWND hButton;
+    COLORREF buttonColor;
 
 public:
     MakeButton(int x, int y, int width, int height, int func, LPCWSTR text);

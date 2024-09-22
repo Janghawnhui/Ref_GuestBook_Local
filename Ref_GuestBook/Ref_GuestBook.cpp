@@ -155,6 +155,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
+    case WM_DRAWITEM:
+    {
+        LPDRAWITEMSTRUCT lpDrawItemStruct = (LPDRAWITEMSTRUCT)lParam;
+
+        // 버튼 핸들 확인
+        if (lpDrawItemStruct->CtlType == ODT_BUTTON)
+        {
+            HBRUSH hBrush = CreateSolidBrush(currentcolor);  // 버튼의 배경색을 설정
+            FillRect(lpDrawItemStruct->hDC, &lpDrawItemStruct->rcItem, hBrush);
+
+            DeleteObject(hBrush);
+            return TRUE;
+        }
+    }
+    break;
     case WM_GETMINMAXINFO:
         // 창 크기 고정을 위해 HandleMinMaxInfo 호출
         windowSizeManager.HandleMinMaxInfo(lParam);
@@ -183,7 +198,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         /// 색상 변경 버튼 생성
 
-        bt_ColorPalette.mkButton(g_Hwnd);
+        bt_ColorPalette.mkButton(g_Hwnd, currentcolor);
 
         /// 스탬프 관련 버튼 생성
         bt_Change_Pen.mkButton(g_Hwnd);
@@ -233,7 +248,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case PALETTE:
             g_colorPalette.colorSelect(g_Hwnd, 0);
             pen_Color = g_colorPalette.getColor(0);
-            break;
+            currentcolor = pen_Color;               // 현재 색상 업데이트
+
+            //InvalidateRect(bt_ColorPalette.mkButton(), NULL, TRUE);  // 버튼 영역 무효화 -> 버튼이 다시 그려짐            break;
 
             /// 스탬프 관련 case 
         case HEART_STAMP:
@@ -271,7 +288,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case WM_PAINT:
     {
-        PAINTSTRUCT ps;
+        PAINTSTRUCT ps; 
         HDC hdc = BeginPaint(hWnd, &ps);
 
         /// 펜 굵기 표시 메서드
@@ -282,6 +299,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         /// 그리기 한 벡터 데이터 그리기 유지
         drawInstance.drawStay(hdc, g_Hwnd, &penMemory);
+
+        HBRUSH hBrush = CreateSolidBrush(currentcolor);  // currentColor가 전역 또는 적절한 스코프에서 선언되어 있어야 함
+        if (hBrush)
+        {
+            // 예시: 색상으로 채울 사각형을 그리는 경우
+            RECT rect = { 680, 10, 50, 50 };  // 원하는 위치에 사각형을 설정
+            FillRect(hdc, &rect, hBrush);
+
+            // 브러시 해제
+            DeleteObject(hBrush);
+        }
 
         EndPaint(hWnd, &ps);
         break;

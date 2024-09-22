@@ -21,6 +21,7 @@ void ColorPalette::colorSelect(HWND hWnd, int penNum)
 
 	/// 사용자가 색상을 선택한 경우 (대화 상자에서 OK를 눌렀을 때)
 	if (ChooseColor(&cc)) {
+		currentcolor = cc.rgbResult;
 		/// 기존에 사용 중인 브러시가 있다면 삭제
 		if (hBrush) {
 			DeleteObject(hBrush); /// 메모리 누수를 방지하기 위해 이전 브러시 객체를 삭제

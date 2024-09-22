@@ -3,6 +3,9 @@
 #include <windows.h>
 #include <commdlg.h> /// 색상 선택을 사용하기위한 API 
 
+
+static COLORREF currentcolor;//현재 선택된 색상
+
 class ColorPalette {
 
 private:
@@ -10,6 +13,7 @@ private:
 	CHOOSECOLOR cc;											/// 색상 선택 창을 설정, 호출하는 구조체
 	HBRUSH hBrush = NULL;		/// 색상을 저장하는 브러쉬 => 초기값 NULL
 	COLORREF colorArr[3] = { RGB(0,0,0),RGB(0,0,0), RGB(0,0,0) };
+
 
 public:
 	void colorSelect(HWND, int);

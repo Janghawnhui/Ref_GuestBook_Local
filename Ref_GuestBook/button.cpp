@@ -22,6 +22,7 @@ MakeButton::MakeButton(int x, int y, int width, int height, int func, LPCWSTR te
     this->func = func;
     this->text = text;
     this->hButton = nullptr;
+    this->buttonColor = RGB(0,0,0);
 }
 
 
@@ -89,6 +90,25 @@ void MakeButton::mkButton(HWND g_Hwnd, int path) {
     insertIconImg(text, path, (HINSTANCE)GetWindowLongPtr(this->hButton, GWLP_HINSTANCE));
 }
 
+void MakeButton::mkButton(HWND g_Hwnd, COLORREF color) {
+    this->hButton = g_Hwnd;
+    this->buttonColor = color;  // 색상을 저장할 멤버 변수 추가
+
+    // 버튼 생성
+    CreateWindow(
+        L"BUTTON",
+        text,
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_OWNERDRAW, // 버튼 스타일에 BS_OWNERDRAW 추가
+        x,
+        y,
+        width,
+        height,
+        this->hButton,
+        (HMENU)func,
+        (HINSTANCE)GetWindowLongPtr(this->hButton, GWLP_HINSTANCE),
+        NULL
+    );
+}
 /**
 @fn  MakeButton::insertIconImg(LPCWSTR text, int path, HINSTANCE hInst)
 @brief 이미지 버튼 생성 메서드의 이미지 전송 메서드 (private)
