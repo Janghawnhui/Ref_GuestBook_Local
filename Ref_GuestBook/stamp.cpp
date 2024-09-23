@@ -50,6 +50,9 @@ void Stamp::changeModeToStamp(bool* stampActive, HWND g_Hwnd, int* stampIcon, in
 
 void Stamp::handleStamp(HWND hWnd, UINT message, LPARAM lParam, std::vector<PEN_INFO>* penMemory) {
 
+    /// DrawFunc의 리플레이 메서드가 실행중일시 스탬프 기능 일시 정지
+    if (PenDraw::isReplay) { return; }
+
     int x = LOWORD(lParam);
     int y = HIWORD(lParam);
     HDC hdc = GetDC(hWnd);
@@ -63,8 +66,7 @@ void Stamp::handleStamp(HWND hWnd, UINT message, LPARAM lParam, std::vector<PEN_
         return;
     }
 
-    /// DrawFunc의 리플레이 메서드가 실행중일시 스탬프 기능 일시 정지
-    if (PenDraw::isReplay) { return; }
+    
 
     switch (message) {
 
@@ -76,6 +78,9 @@ void Stamp::handleStamp(HWND hWnd, UINT message, LPARAM lParam, std::vector<PEN_
             || LOWORD(lParam) > PAINT_R_RIGHT   - 45) {
             break;
         }
+
+        wsprintf(ShowStatus::nowStatus, L"스탬프 모드");
+        InvalidateRect(hWnd, &ShowStatus::status_Rect, TRUE);
 
         stampX = x;
         stampY = y;
