@@ -2,7 +2,7 @@
 @file erase.cpp
 @brief 지우기 기능 클래스 외부 정의 파일
 */
-#include "erase.h"
+#include "Erase.h"
 
 /**
 @fn  Eraser::Eraser()
@@ -23,6 +23,9 @@ Eraser::Eraser() {
 */
 void Eraser::erase(HWND hWnd, std::vector<Pen_Info>* penMemory)
 {
+    /// 리플레이 실행시 지우기 기능 return
+    if (PenDraw::isReplay) { return; }
+
     /// 벡터 변수 초기화
     penMemory->clear();
 
